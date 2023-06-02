@@ -30,7 +30,7 @@ while($row = mysqli_fetch_array($result)) {
     <div class="container">
         <form name="product_form" action="<?=$action?>" method="post" class="fullwidth">
             <input type="hidden" name="product_id" value="<?=$product['product_id']?>"/>
-            <h3>상품 정보 <?=$mode?></h3>
+            <h3>고객 정보 <?=$mode?></h3>
             <p>
                 <label for="manufacturer_id">제조사</label>
                 <select name="manufacturer_id" id="manufacturer_id">
