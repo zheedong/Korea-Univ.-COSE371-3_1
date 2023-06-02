@@ -40,6 +40,7 @@ include "util.php";      //유틸 함수
         ?>
     </table>
     <script>
+        // Need to check user input is equal to $row['password'] in the database
         function deleteConfirm(product_id) {
             if (confirm("정말 삭제하시겠습니까?") == true){    //확인
                 window.location = "product_delete.php?product_id=" + product_id;
