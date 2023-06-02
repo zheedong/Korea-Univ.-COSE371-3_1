@@ -19,7 +19,7 @@
                 <li><a href='car_list.php'>내가 팔 차</a></li>
                 <li><a href='appraisal_insert.php'>감정 신청</a></li>
                 <li><a href='appraisal_list.php'>감정 조회</a></li>
-                <li><a href='customer_insert.php'>고객 등록</a></li>
+                <li><a href='customer_form.php'>고객 등록</a></li>
                 <li><a href='customer_list.php'>고객 조회</a></li>
             </ul>
         </div>
