@@ -20,7 +20,7 @@
         }
     </style>
     <div class='container'>
-        <p align="center"><img src="images/banner.png" width="100%"></p>
+        <p align="center"><img src="images/banner_2.png" width="100%"></p>
         <h1>고려차차차🚗</h1>
         <p>신개념 중고차 거래 플랫폼</br><b>오늘 등록하고, 내일 파세요!</b></p>
         <p class="ref">본 사이트에서 사용된 리소스는 학술적 용도로만 사용되었으며, 상업적 사용은 제한됩니다. 
