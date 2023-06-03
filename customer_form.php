@@ -58,6 +58,45 @@ if (array_key_exists("customer_no", $_GET)) {
                     else if(document.getElementById("password").value == "") {
                         alert ("비밀번호를 입력해 주십시오"); return false;
                     }
+
+                    // Email이 Unique 한지 확인
+                    // email_check.php 실행 
+                    var email = document.getElementById("email").value;
+                    var email_check = 0;
+                    $.ajax({
+                        url: 'email_check.php',
+                        type: 'POST',
+                        data: {
+                            email: email
+                        },
+                        success: function(result) {
+                            if(result == 1) {
+                                alert("이미 존재하는 이메일입니다.");
+                                email_check = 1;
+                            }
+                        }
+                    });
+
+                    // Password가 일치하는지 확인
+                    // password_check.php 실행
+                    var password = document.getElementById("password").value;
+                    var password_check = 0;
+                    $.ajax({
+                        url: 'password_check.php',
+                        type: 'POST',
+                        data: {
+                            password: password
+                        },
+                        success: function(result) {
+                            if(result == 1) {
+                                alert("비밀번호가 일치하지 않습니다.");
+                                password_check = 1;
+                            }
+                        }
+                    });
+
+                    
+
                     return true;
 
                 }
