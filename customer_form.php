@@ -20,8 +20,8 @@ if (array_key_exists("customer_no", $_GET)) {
 }
 ?>
     <div class="container">
-        <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
-            <input type="hidden" name="customer_no" value="<?=$customer['customer_no']?>"/>
+        <form id="customer_form" name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
+            <input type="hidden" id="customer_no" name="customer_no" value="<?=$customer['customer_no']?>"/>
             <h3>고객 정보 <?=$mode?></h3>
             <h6>*은 필수 입력 필드입니다.</h6>
             <p>
@@ -63,49 +63,56 @@ if (array_key_exists("customer_no", $_GET)) {
                     alert ("비밀번호를 입력해 주십시오"); return false;
                 }
 
+                $('#customer_form').on('submit', function(e) {
+                e.preventDefault(); // prevent form from submitting
+
                 var email = document.getElementById("email").value;
                 var password = document.getElementById("password").value;
                 var customer_no = document.getElementById("customer_no").value;
 
+                var promise;
+
                 // If mode = 수정, check if email already exists and password is correct
                 if (mode == "수정") {
-                    $.ajax({
+                    promise = $.ajax({
                         url: 'password_check.php',
                         type: 'POST',
                         data: {
                             'password': password,
                             'customer_no': customer_no
-                        },
-                        success: function(result) {
-                            alert("TEST");
-                            return false;
-                            if (result == 'password incorrect') {
-                                alert('패스워드가 틀렸습니다.');
-                                return false;
-                            } 
                         }
                     });
                 }
                 else if (mode == "입력") {
-                    $.ajax({
+                    promise = $.ajax({
                         url: 'email_check.php',
                         type: 'POST',
                         data: {
                             'email': email
-                        },
-                        success: function(result) {
-                            if (result == 'email exists') {
-                                alert('이미 존재하는 이메일입니다.');
-                                return false;
-                            } 
                         }
                     });
                 }
 
+                promise.then(function(result) {
+                    if (mode == "수정" && result == 'password incorrect') {
+                        alert('패스워드가 틀렸습니다.');
+                    } 
+                    else if (mode == "입력" && result == 'email exists') {
+                        alert('이미 존재하는 이메일입니다.');
+                    }
+                    else {
+                        // No errors, submit form
+                        $('#customer_form').off('submit').submit();
+                    }
+                })
+                .catch(function(jqXHR, textStatus, errorThrown) {
+                    console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                });
+            });
+        }
 
-                return true;
-            }
             </script>
+
 
         </form>
     </div>
