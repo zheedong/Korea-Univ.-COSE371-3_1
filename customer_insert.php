@@ -4,12 +4,13 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
-$customer_name = $_POST['customer_name'];
+$name = $_POST['name'];
 $contact = $_POST['contact'];
 $email = $_POST['email'];
 $address = $_POST['address'];
+$password = $_POST['password'];
 
-$result = mysqli_query($conn, "insert into customer (customer_name, contact, email, address) values('$customer_name', '$contact', '$email', '$address')");
+$result = mysqli_query($conn, "insert into customer (name, contact, email, address, password) values('$name', '$contact', '$email', '$address', '$password')");
 if(!$result)
 {
     msg('Query Error : '.mysqli_error($conn));

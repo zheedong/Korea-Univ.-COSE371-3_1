@@ -23,7 +23,7 @@ if (array_key_exists("customer_id", $_GET)) {
         <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
             <input type="hidden" name="customer_no" value="<?=$customer['customer_id']?>"/>
             <h3>고객 정보 <?=$mode?></h3>
-            <h4>*은 필수 입력 필드입니다.</h4>
+            <h6>*은 필수 입력 필드입니다.</h6>
             <p>
                 <label for="name">고객 이름*</label>
                 <input type="text" placeholder="고객 이름 입력" id="name" name="name" value="<?=$customer['name']?>"/>
