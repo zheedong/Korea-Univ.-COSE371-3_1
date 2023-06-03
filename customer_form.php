@@ -60,7 +60,7 @@ if (array_key_exists("customer_no", $_GET)) {
                     }
 
                     // Email unique check
-                    $email = $_POST['email']; 
+                    $email = document.getElementById("email").value;
                     $check_email_query = "SELECT * FROM customer WHERE email = '$email'";
                     $check_email_result = mysqli_query($conn, $check_email_query);
                     $customer = mysqli_fetch_array($check_email_result);
