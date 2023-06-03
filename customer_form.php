@@ -23,8 +23,9 @@ if (array_key_exists("customer_id", $_GET)) {
         <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
             <input type="hidden" name="customer_no" value="<?=$customer['customer_id']?>"/>
             <h3>고객 정보 <?=$mode?></h3>
+            <h4>*은 필수 입력 필드입니다.</h4>
             <p>
-                <label for="name">고객 이름</label>
+                <label for="name">고객 이름*</label>
                 <input type="text" placeholder="고객 이름 입력" id="name" name="name" value="<?=$customer['name']?>"/>
             </p>
             <p>
@@ -32,7 +33,7 @@ if (array_key_exists("customer_id", $_GET)) {
                 <input type="number" placeholder="정수로 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
             </p>
             <p>
-                <label for="email">Email</label>
+                <label for="email">Email*</label>
                 <input type="text" placeholder="이메일은 필수 입력" id="email" name="email" value="<?=$customer['email']?>" />
             </p>
             <p>
@@ -40,7 +41,7 @@ if (array_key_exists("customer_id", $_GET)) {
                 <input type="text" placeholder="주소 입력" id="address" name="address" value="<?=$customer['address']?>" />
             </p>
             <p>
-                <label for="password">비밀번호</label>
+                <label for="password">비밀번호*</label>
                 <input type="text" placeholder="가입 비밀번호" id="password" name="password" value="<?=$customer['password']?>" />
             </p>
 
