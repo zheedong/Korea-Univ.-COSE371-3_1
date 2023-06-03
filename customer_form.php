@@ -69,7 +69,7 @@ if (array_key_exists("customer_no", $_GET)) {
                             email: email
                         },
                         success: function(result) {
-                            if(result == 1) {
+                            if(result == "duplicate") {
                                 alert("이미 존재하는 이메일입니다."); return false;
                             }
                         }
@@ -87,7 +87,7 @@ if (array_key_exists("customer_no", $_GET)) {
                             password: password
                         },
                         success: function(result) {
-                            if(result == 1) {
+                            if(result == "nomatch") {
                                 alert("비밀번호가 일치하지 않습니다."); return false;
                             }
                         }
