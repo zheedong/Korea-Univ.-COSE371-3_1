@@ -17,6 +17,7 @@
                 mysqli_stmt_store_result($stmt);
 
                 if(mysqli_stmt_num_rows($stmt) == 1) {
+                    alert("이미 등록됨");
                     echo "duplicate";  // 이메일 중복
                 } else {
                     echo "unique";  // 이메일 유니크

@@ -61,12 +61,11 @@ if (array_key_exists("customer_no", $_GET)) {
 
                     // Email이 Unique 한지 확인
                     // email_check.php 실행 
-                    var email = document.getElementById("email").value;
                     $.ajax({
                         url: 'email_check.php',
                         type: 'POST',
                         data: {
-                            email: email
+                            email: document.getElementById("email").value;
                         },
                         success: function(result) {
                             if(result == "duplicate") {
@@ -77,14 +76,12 @@ if (array_key_exists("customer_no", $_GET)) {
 
                     // Password가 일치하는지 확인
                     // password_check.php 실행
-                    var customer_no = document.getElementById("customer_no").value;
-                    var password = document.getElementById("password").value;
                     $.ajax({
                         url: 'password_check.php',
                         type: 'POST',
                         data: {
-                            customer_no: customer_no,
-                            password: password
+                            customer_no: document.getElementById("customer_no").value,
+                            password: document.getElementById("password").value;
                         },
                         success: function(result) {
                             if(result == "nomatch") {
