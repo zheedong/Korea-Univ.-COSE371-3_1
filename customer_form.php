@@ -11,69 +11,51 @@ if (array_key_exists("customer_id", $_GET)) {
     $customer_id = $_GET["customer_id"];
     $query =  "select * from customer where customer_id = $customer_id";
     $result = mysqli_query($conn, $query);
-    $product = mysqli_fetch_array($result);
-    if(!$product) {
+    $customer = mysqli_fetch_array($result);
+    if(!$customer) {
         msg("고객이 존재하지 않습니다.");
     }
     $mode = "수정";
     $action = "customer_modify.php";
 }
-
-$manufacturers = array();
-
-$query = "select * from customer";
-$result = mysqli_query($conn, $query);
-while($row = mysqli_fetch_array($result)) {
-    $manufacturers[$row['manufacturer_id']] = $row['manufacturer_name'];
-}
 ?>
     <div class="container">
-        <form name="product_form" action="<?=$action?>" method="post" class="fullwidth">
-            <input type="hidden" name="product_id" value="<?=$product['product_id']?>"/>
+        <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
+            <input type="hidden" name="customer_no" value="<?=$customer['customer_id']?>"/>
             <h3>고객 정보 <?=$mode?></h3>
             <p>
-                <label for="manufacturer_id">제조사</label>
-                <select name="manufacturer_id" id="manufacturer_id">
-                    <option value="-1">선택해 주십시오.</option>
-                    <?
-                        foreach($manufacturers as $id => $name) {
-                            if($id == $product['manufacturer_id']){
-                                echo "<option value='{$id}' selected>{$name}</option>";
-                            } else {
-                                echo "<option value='{$id}'>{$name}</option>";
-                            }
-                        }
-                    ?>
-                </select>
+                <label for="name">고객 이름</label>
+                <input type="text" placeholder="고객 이름 입력" id="name" name="name" value="<?=$customer['name']?>"/>
             </p>
             <p>
-                <label for="product_name">상품명</label>
-                <input type="text" placeholder="상품명 입력" id="product_name" name="product_name" value="<?=$product['product_name']?>"/>
+                <label for="contact">연락처</label>
+                <input type="number" placeholder="정수로 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
             </p>
             <p>
-                <label for="product_desc">상품설명</label>
-                <textarea placeholder="상품설명 입력" id="product_desc" name="product_desc" rows="10"><?=$product['product_desc']?></textarea>
+                <label for="email">Email</label>
+                <input type="text" placeholder="이메일은 필수 입력" id="email" name="email" value="<?=$customer['email']?>" />
             </p>
             <p>
-                <label for="price">가격</label>
-                <input type="number" placeholder="정수로 입력" id="price" name="price" value="<?=$product['price']?>" />
+                <label for="address">주소</label>
+                <input type="text" placeholder="주소 입력" id="address" name="address" value="<?=$customer['address']?>" />
+            </p>
+            <p>
+                <label for="password">비밀번호</label>
+                <input type="text" placeholder="가입 비밀번호" id="password" name="password" value="<?=$customer['password']?>" />
             </p>
 
             <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
 
             <script>
                 function validate() {
-                    if(document.getElementById("manufacturer_id").value == "-1") {
-                        alert ("제조사를 선택해 주십시오"); return false;
+                    if(document.getElementById("name").value == "") {
+                        alert ("고객 이름을 입력해 주십시오"); return false;
                     }
-                    else if(document.getElementById("product_name").value == "") {
-                        alert ("상품명을 입력해 주십시오"); return false;
+                    else if(document.getElementById("email").value == "") {
+                        alert ("이메일을 입력해 주십시오"); return false;
                     }
-                    else if(document.getElementById("product_desc").value == "") {
-                        alert ("상품설명을 입력해 주십시오"); return false;
-                    }
-                    else if(document.getElementById("price").value == "") {
-                        alert ("가격을 입력해 주십시오"); return false;
+                    else if(document.getElementById("password").value == "") {
+                        alert ("비밀번호를 입력해 주십시오"); return false;
                     }
                     return true;
                 }
