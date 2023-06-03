@@ -7,9 +7,9 @@ $conn = dbconnect($host, $dbid, $dbpass, $dbname);
 $mode = "입력";
 $action = "customer_insert.php";
 
-if (array_key_exists("customer_id", $_GET)) {
-    $customer_id = $_GET["customer_id"];
-    $query =  "select * from customer where customer_id = $customer_id";
+if (array_key_exists("customer_no", $_GET)) {
+    $customer_no = $_GET["customer_no"];
+    $query =  "select * from customer where customer_no = $customer_no";
     $result = mysqli_query($conn, $query);
     $customer = mysqli_fetch_array($result);
     if(!$customer) {
@@ -21,7 +21,7 @@ if (array_key_exists("customer_id", $_GET)) {
 ?>
     <div class="container">
         <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
-            <input type="hidden" name="customer_no" value="<?=$customer['customer_id']?>"/>
+            <input type="hidden" name="customer_no" value="<?=$customer['customer_no']?>"/>
             <h3>고객 정보 <?=$mode?></h3>
             <h6>*은 필수 입력 필드입니다.</h6>
             <p>
@@ -42,7 +42,7 @@ if (array_key_exists("customer_id", $_GET)) {
             </p>
             <p>
                 <label for="password">비밀번호*</label>
-                <input type="text" placeholder="가입 비밀번호" id="password" name="password" value="<?=$customer['password']?>" />
+                <input type="text" placeholder="가입 비밀번호" id="password" name="password" value="" />
             </p>
 
             <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
@@ -59,6 +59,7 @@ if (array_key_exists("customer_id", $_GET)) {
                         alert ("비밀번호를 입력해 주십시오"); return false;
                     }
                     return true;
+
                 }
             </script>
 

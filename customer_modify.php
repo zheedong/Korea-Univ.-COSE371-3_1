@@ -4,6 +4,7 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
+$customer_no = $_POST['customer_no'];
 $name = $_POST['name'];
 $contact = $_POST['contact'];
 $email = $_POST['email'];
