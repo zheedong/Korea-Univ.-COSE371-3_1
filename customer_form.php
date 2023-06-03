@@ -50,6 +50,8 @@ if (array_key_exists("customer_no", $_GET)) {
             <!-- Include jQuery Library Here -->
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script> 
+            var mode = "<?=$mode?>"
+
             function validate() {
                 if(document.getElementById("name").value == "") {
                     alert ("고객 이름을 입력해 주십시오"); return false;
@@ -64,26 +66,42 @@ if (array_key_exists("customer_no", $_GET)) {
                 var email = document.getElementById("email").value;
                 var password = document.getElementById("password").value;
                 var customer_no = document.getElementById("customer_no").value;
-                alert("TEST")
 
-                $.ajax({
-                    url: 'email_password_check.php',
-                    type: 'POST',
-                    data: {
-                        'email': email,
-                        'password': password,
-                        'customer_no': customer_no
-                    },
-                    success: function(result) {
-                        if (result == 'email exists') {
-                            alert('이미 존재하는 이메일입니다.');
+                // If mode = 수정, check if email already exists and password is correct
+                if (mode == "수정") {
+                    $.ajax({
+                        url: 'password_check.php',
+                        type: 'POST',
+                        data: {
+                            'password': password,
+                            'customer_no': customer_no
+                        },
+                        success: function(result) {
+                            alert("TEST");
                             return false;
-                        } else if (result == 'password incorrect') {
-                            alert('비밀번호가 일치하지 않습니다.');
-                            return false;
-                        } 
-                    }
-                });
+                            if (result == 'password incorrect') {
+                                alert('패스워드가 틀렸습니다.');
+                                return false;
+                            } 
+                        }
+                    });
+                }
+                else if (mode == "입력") {
+                    $.ajax({
+                        url: 'email_check.php',
+                        type: 'POST',
+                        data: {
+                            'email': email
+                        },
+                        success: function(result) {
+                            if (result == 'email exists') {
+                                alert('이미 존재하는 이메일입니다.');
+                                return false;
+                            } 
+                        }
+                    });
+                }
+
 
                 return true;
             }
