@@ -18,7 +18,6 @@ if (array_key_exists("customer_no", $_GET)) {
     $mode = "수정";
     $action = "customer_modify.php";
 }
-
 ?>
     <div class="container">
         <form name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
@@ -48,40 +47,46 @@ if (array_key_exists("customer_no", $_GET)) {
 
             <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
 
-            <script>
-                function validate() {
-                    if(document.getElementById("name").value == "") {
-                        alert ("고객 이름을 입력해 주십시오"); return false;
-                    }
-                    else if(document.getElementById("email").value == "") {
-                        alert ("이메일을 입력해 주십시오"); return false;
-                    }
-                    else if(document.getElementById("password").value == "") {
-                        alert ("비밀번호를 입력해 주십시오"); return false;
-                    }
-
-                    // Email unique check
-                    $email = document.getElementById("email").value;
-                    $check_email_query = "SELECT * FROM customer WHERE email = '$email'";
-                    $check_email_result = mysqli_query($conn, $check_email_query);
-                    $customer = mysqli_fetch_array($check_email_result);
-                    if($customer) {
-                        // 이미 존재하는 이메일입니다.
-                        alert("이미 존재하는 이메일입니다."); return false;
-                    }
-
-                    $password = $_POST['password'];
-                    $check_password_query = "SELECT * FROM customer WHERE customer_no = '$customer_no'";
-                    $check_password_result = mysqli_query($conn, $check_password_query);
-                    $customer = mysqli_fetch_array($check_password_result);
-                    if($customer['password'] != $password) {
-                        // 비밀번호가 일치하지 않습니다.
-                        alert("비밀번호가 일치하지 않습니다."); return false;
-                    }
-
-                    return true;
-
+            <!-- Include jQuery Library Here -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script> 
+            function validate() {
+                if(document.getElementById("name").value == "") {
+                    alert ("고객 이름을 입력해 주십시오"); return false;
                 }
+                else if(document.getElementById("email").value == "") {
+                    alert ("이메일을 입력해 주십시오"); return false;
+                }
+                else if(document.getElementById("password").value == "") {
+                    alert ("비밀번호를 입력해 주십시오"); return false;
+                }
+
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
+                var customer_no = document.getElementById("customer_no").value;
+                alert("TEST")
+
+                $.ajax({
+                    url: 'email_password_check.php',
+                    type: 'POST',
+                    data: {
+                        'email': email,
+                        'password': password,
+                        'customer_no': customer_no
+                    },
+                    success: function(result) {
+                        if (result == 'email exists') {
+                            alert('이미 존재하는 이메일입니다.');
+                            return false;
+                        } else if (result == 'password incorrect') {
+                            alert('비밀번호가 일치하지 않습니다.');
+                            return false;
+                        } 
+                    }
+                });
+
+                return true;
+            }
             </script>
 
         </form>
