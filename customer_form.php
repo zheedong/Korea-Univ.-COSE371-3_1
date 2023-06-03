@@ -83,7 +83,7 @@ if (array_key_exists("customer_no", $_GET)) {
                         url: 'password_check.php',
                         type: 'POST',
                         data: {
-                            customer_no: 
+                            customer_no: customer_no,
                             password: password
                         },
                         success: function(result) {
