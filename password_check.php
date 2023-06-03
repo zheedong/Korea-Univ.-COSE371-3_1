@@ -4,11 +4,11 @@
 
     $conn = dbconnect($host, $dbid, $dbpass, $dbname);
 
-    if(isset($_POST["email"]) && isset($_POST["password"])) {
-        $email = $_POST["email"];
+    if(isset($_POST["customer_no"]) && isset($_POST["password"])) {
+        $customer_no = $_POST["customer_no"];
         $password = $_POST["password"];
 
-        $query = "SELECT password FROM customer WHERE email = ?";
+        $query = "SELECT password FROM customer WHERE customer_no = $customer_no";
         if($stmt = mysqli_prepare($conn, $query)) {
             mysqli_stmt_bind_param($stmt, "s", $param_email);
 

@@ -21,7 +21,7 @@ if(!$result)
 else
 {
     s_msg ('성공적으로 수정 되었습니다');
-    echo "<script>location.replace('product_list.php');</script>";
+    echo "<script>location.replace('customer_list.php');</script>";
 }
 
 ?>
