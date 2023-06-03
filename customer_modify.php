@@ -4,13 +4,14 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
-$customer_name = $_POST['customer_name'];
+$name = $_POST['name'];
 $contact = $_POST['contact'];
 $email = $_POST['email'];
 $address = $_POST['address'];
+$password = $_POST['password'];
 
 // update
-$result = mysqli_query($conn, "update customer set customer_name = '$customer_name', contact = '$contact', email = '$email', address = '$address' where customer_id = $customer_id");
+$result = mysqli_query($conn, "update customer set name = '$name', contact = '$contact', email = '$email', address = '$address', password = '$password' where name = '$name'");
 
 if(!$result)
 {
