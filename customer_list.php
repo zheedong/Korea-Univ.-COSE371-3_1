@@ -30,24 +30,13 @@ include "util.php";      //유틸 함수
             echo "<td>{$row['contact']}</td>";
             echo "<td>{$row['email']}</td>";
             echo "<td>{$row['address']}</td>";
-            echo "<td width='17%'>
-                <a href='customer_form.php?customer_no={$row['customer_no']}'><button class='button primary small'>수정</button></a>
-                <button onclick='javascript:deleteConfirm({$row['customer_no']})' class='button danger small'>삭제</button>
+            echo "<td>
+                <a href='customer_form.php?customer_no={$row['customer_no']}'><button class='button primary medium'>수정</button></a>
                 </td>";
             echo "</tr>";
             $row_index++;
         }
         ?>
     </table>
-    <script>
-        // Need to check user input is equal to $row['password'] in the database
-        function deleteConfirm(customer_no) {
-            if (confirm("정말 삭제하시겠습니까?") == true){    //확인
-                window.location = "customer_delete.php?customer_no=" + customer_no;
-            }else{   //취소
-                return;
-            }
-        }
-    </script>
 </div>
 <? include("footer.php") ?>

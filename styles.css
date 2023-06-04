@@ -178,6 +178,11 @@ a:hover {
     font-size: .95em;
 }
 
+.button.medium {
+    padding: 7px 30px;
+    font-size: 1em;
+}
+
 .button.large {
     padding: 15px 45px;
     font-size: 1.1em;
@@ -201,6 +206,12 @@ a:hover {
     background: #e4572e;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
 /* 3.3. Input */
 
 .fullwidth input[type='text'], input[type='number'], textarea, select {
@@ -209,6 +220,10 @@ a:hover {
     box-shadow: none;
     padding: 5px;
     width: 100%
+}
+
+input:read-only {
+    background-color: #d3d3d3; /* light grey */
 }
 
 /* 4. Media */

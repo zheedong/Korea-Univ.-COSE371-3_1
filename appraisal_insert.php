@@ -13,7 +13,7 @@ if(!$result)
 }
 else
 {
-    s_msg ('성공적으로 입력 되었습니다');
+    s_msg ('성공적으로 신청 되었습니다');
     echo "<script>location.replace('appraisal_list.php');</script>";
 }
 ?>

@@ -8,7 +8,7 @@ $mode = "입력";
 $action = "car_insert.php";
 
 if (array_key_exists("car_no", $_GET)) {
-    $car_no = $_GET["car_no"];
+    $car_no = urldecode($_GET["car_no"]);
     $query =  "select * from car where car_no = '$car_no'";
     $result = mysqli_query($conn, $query);
     $car = mysqli_fetch_array($result);
@@ -38,7 +38,7 @@ while($row = mysqli_fetch_array($result)) {
         </p>
         <p>
             <label for="model">차량 모델*</label>
-            <select name="model_name" id="model_name">
+            <select name="model" id="model">
                 <option value="-1">선택해 주십시오.</option>
                 <?
                     foreach($model as $name) {
@@ -53,7 +53,13 @@ while($row = mysqli_fetch_array($result)) {
         </p>
         <p>
             <label for="customer_no">고객 번호*</label>
-            <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>"/>
+            <? if ($mode == "입력") : ?>
+                <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>"/>
+            <? endif; ?>
+
+            <? if ($mode == "수정") : ?>
+                <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>" readonly/>
+            <? endif; ?>
         </p>
         <p>
             <label>고객 비밀번호*</label>
@@ -76,76 +82,180 @@ while($row = mysqli_fetch_array($result)) {
             <input type="text" placeholder="차량 색상 입력" id="color" name="color" value="<?=$car['color']?>"/>
         </p>
 
+        <? if ($mode == "입력") : ?>
+            <p align="center"><button id="modify-button" class="button primary large"><?=$mode?></button></p>
+        <? endif; ?>
+
+        <!-- If $mode=수정, make delete button -->
+        <? if ($mode == "수정") : ?>
+            <p class="button-container">
+                <button id="modify-button" class="button primary large"><?=$mode?></button>
+                <button id="delete-button" class="button danger large">삭제</button>
+                <button id="appraisal-button" class="button primary large">감정 신청</button>
+            </p>
+        <? endif; ?>
 
         <!-- Include jQuery Library Here -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            $('#car_form').on('submit', function(e) {
+            var shouldSubmit = false;
+
+            $('#modify-button').on('click', function(e) {
                 e.preventDefault();
-                validate();
+                validate().then(function() {
+                    shouldSubmit = true;
+                    $('#car_form').submit();
+                });
             });
 
+            $('#delete-button').on('click', function(e) {
+                e.preventDefault();
+                setDeleteAction().then(function() {
+                    shouldSubmit = true;
+                    $('#car_form').submit();
+                });
+            });
+
+            $('#appraisal-button').on('click', function(e) {
+                e.preventDefault();
+                checkAppraisal().then(function() {
+                    shouldSubmit = true;
+                    $('#car_form').submit();
+                });
+            });
+
+            $('#customer_form').on('submit', function(e) {
+                if(!shouldSubmit) {
+                    e.preventDefault();
+                }
+            })
+
             function validate() {
-
-                if(document.getElementById("car_no").value == "") {
-                    alert ("차량 번호를 입력해 주십시오");
-                    return;
-                }
-                else if(document.getElementById("model_name").value == "-1") {
-                    alert ("차량 모델을 선택해 주십시오");
-                    return;
-                }
-                else if(document.getElementById("customer_no").value == "") {
-                    alert ("고객 번호를 입력해 주십시오");
-                    return;
-                }
-                else if(document.getElementById("password").value == "") {
-                    alert ("고객 비밀번호를 입력해 주십시오");
-                    return;
-                }
-
-                var customer_no = document.getElementById("customer_no").value;
-                let promises = [];
-
-                promises.push($.ajax({
-                    url: 'customer_check.php',
-                    type: 'POST',
-                    data: {
-                        'customer_no': customer_no
+                return new Promise(function(resolve, reject) {
+                    if(document.getElementById("car_no").value == "") {
+                        alert ("차량 번호를 입력해 주십시오");
+                        reject();
+                        return;
                     }
-                }));
+                    else if(document.getElementById("model").value == "-1") {
+                        alert ("차량 모델을 입력해 주십시오");
+                        reject();
+                        return;
+                    }
+                    else if(document.getElementById("password").value == "") {
+                        alert ("비밀번호를 입력해 주십시오");
+                        reject();
+                        return;
+                    }
 
-                promises.push($.ajax({
-                    url: 'password_check.php',
-                    type: 'POST',
-                    data: {
-                        'password': document.getElementById("password").value,
-                        'customer_no': customer_no
-                    }
-                }));
+                    var password = document.getElementById("password").value;
+                    var customer_no = document.getElementById("customer_no").value;
 
-                Promise.all(promises)
-                .then(function(results) {
-                    let customer_check_result = results[0]
-                    let password_check_result = results[1]
+                    promise = $.ajax({
+                        url: 'password_check.php',
+                        type: 'POST',
+                        data: {
+                            'password': password,
+                            'customer_no': customer_no
+                        }
+                    });
 
-                    if (customer_check_result == "false") {
-                        alert("존재하지 않는 고객 번호입니다.")
-                    }
-                    else if (password_check_result == "password_incorrect") {
-                        alert("비밀번호가 일치하지 않습니다.")
-                    }
-                    else {
-                        $('#car_form').off('submit').submit();
-                    }
-                })
-                .catch(function(jqXHR, textStatus, errorThrown) {
-                    console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                    promise.then(function(result) {
+                        if (result == 'password incorrect') {
+                            alert("비밀번호가 일치하지 않습니다.")
+                            reject();
+                        } 
+                        else {
+                            // No errors, submit form
+                            resolve();
+                        }
+                    })
+                    .catch(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                    });
                 });
             }
+            
+            function setDeleteAction() {
+                return new Promise(function(resolve, reject) {
+                    if (confirm("정말 삭제하시겠습니까?")) {
+                        var password = document.getElementById("password").value;
+                        if(password == "") {
+                            alert ("고객 비밀번호를 입력해 주십시오");
+                            reject();
+                            return;
+                        } 
+
+                        promise = $.ajax({
+                            url: 'password_check.php',
+                            type: 'POST',
+                            data: {
+                                'password': document.getElementById("password").value,
+                                'customer_no': customer_no
+                            }
+                        });
+
+                        promise.then(function(result) {
+                            if (result == "password incorrect") {
+                                alert("비밀번호가 일치하지 않습니다.")
+                                reject();
+                            }
+                            else {
+                                resolve();
+                            }
+                        })
+                        .catch(function(jqXHR, textStatus, errorThrown) {
+                            console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                            reject();
+                        });
+                    }
+                    else {
+                        reject();
+                    }
+                });
+            }
+
+            function checkAppraisal() {
+                return new Promise(function(resolve, reject) {
+                    if (confirm("감정을 신청하시겠습니까??")) {
+                        var password = document.getElementById("password").value;
+                        if(password == "") {
+                            alert ("고객 비밀번호를 입력해 주십시오");
+                            reject();
+                            return;
+                        } 
+
+                        promise = $.ajax({
+                            url: 'password_check.php',
+                            type: 'POST',
+                            data: {
+                                'password': document.getElementById("password").value,
+                                'customer_no': customer_no
+                            }
+                        });
+
+                        promise.then(function(result) {
+                            if (result == "password incorrect") {
+                                alert("비밀번호가 일치하지 않습니다.")
+                                reject();
+                            }
+                            else {
+                                resolve();
+                            }
+                        })
+                        .catch(function(jqXHR, textStatus, errorThrown) {
+                            console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                            reject();
+                        });
+                    }
+                    else {
+                        reject();
+                    }
+                });
+            }
+
         </script>
 
-        <p align="center"><button class="button primary large"><?=$mode?></button></p>
     </form>
 </div>
 <? include("footer.php") ?>

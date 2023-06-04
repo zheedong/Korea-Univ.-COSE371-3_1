@@ -36,9 +36,8 @@ include "util.php";      //유틸 함수
             echo "<td>{$row['estimated_price']}</td>";
             echo "<td>{$row['customer_no']}</td>";
             echo "<td>{$row['model_name']}</td>";
-            echo "<td width='17%'>
-                <a href='car_form.php?car_no={$row['car_no']}'><button class='button primary small'>수정</button></a>
-                <button onclick='javascript:deleteConfirm(\"" . rawurlencode($row['car_no']) . "\")' class='button danger small'>삭제</button>
+            echo "<td>
+                <a href='car_form.php?car_no={$row['car_no']}'><button class='button primary medium'>수정</button></a>
                 </td>";
             echo "</tr>";
             $row_index++;
