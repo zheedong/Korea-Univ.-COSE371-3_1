@@ -15,7 +15,7 @@
                 <li>
                     <input type="text" name="search_keyword" placeholder="고려차차차 통합검색">
                 </li>
-                <li><a href='car_insert.php'>차량 등록</a></li>
+                <li><a href='car_form.php'>차량 등록</a></li>
                 <li><a href='car_list.php'>내가 팔 차</a></li>
                 <li><a href='appraisal_insert.php'>감정 신청</a></li>
                 <li><a href='appraisal_list.php'>감정 조회</a></li>
