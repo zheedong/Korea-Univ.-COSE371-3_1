@@ -15,6 +15,26 @@ $model_name = $_POST['model_name'];
 
 // 1. model table에서 출고가 (forwarding_price) 가져오기
 // 2. 잔가율[올해 - 연식] * 출고가 = estimated_price
+$balance_rate = [];
+$balance_rate[0] = 0.826;
+$balance_rate[1] = 0.725;
+$balance_rate[2] = 0.614;
+$balance_rate[3] = 0.518;
+$balance_rate[4] = 0.437;
+$balance_rate[5] = 0.368;
+$balance_rate[6] = 0.311;
+$balance_rate[7] = 0.262;
+$balance_rate[8] = 0.221;
+$balance_rate[9] = 0.186;
+$balance_rate[10] = 0.157;
+$balance_rate[11] = 0.132;
+$balance_rate[12] = 0.112;
+$balance_rate[13] = 0.094;
+$balance_rate[14] = 0.079;
+$balance_rate[15] = 0.067;
+
+$model = mysqli_query($conn, "select * from model where model_name = '$model_name'");
+$estimated_price = mysqli_fetch_array($model)['forwarding_price'] * $balance_rate[date("Y") - $model_year];
 
 
 $result = mysqli_query($conn, "insert into car (car_no, model_year, mileage, accident_history, color, estimated_price, customer_no, model_name) 
