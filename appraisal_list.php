@@ -9,7 +9,7 @@ include "util.php";      //유틸 함수
     $query = "select * from appraisal";
     $result = mysqli_query($conn, $query);
     if (!$result) {
-         die('Query Error : ' . mysqli_error());
+        msg('Query Error : '.mysqli_error($conn));
     }
     ?>
 
