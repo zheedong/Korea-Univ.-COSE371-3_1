@@ -4,7 +4,7 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
-$customer_no = $_GET['customer_no'];
+$customer_no = $_POST['customer_no'];
 
 $result = mysqli_query($conn, "delete from customer where customer_no = $customer_no");
 

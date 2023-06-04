@@ -77,7 +77,6 @@ if (array_key_exists("customer_no", $_GET)) {
                 setDeleteAction().then(function() {
                     shouldSubmit = true;
                     $('#customer_form').attr('action', 'customer_delete.php');
-                    $('#customer_no').val(customer_no);
                     $('#customer_form').submit();
                 });
             });
