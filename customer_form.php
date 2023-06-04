@@ -30,7 +30,7 @@ if (array_key_exists("customer_no", $_GET)) {
             </p>
             <p>
                 <label for="contact">연락처</label>
-                <input type="number" placeholder="정수로 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
+                <input type="number" placeholder="숫자만 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
             </p>
             <p>
                 <label for="email">Email*</label>

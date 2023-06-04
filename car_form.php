@@ -11,34 +11,33 @@ if (array_key_exists("car_no", $_GET)) {
     $car_no = $_GET["car_no"];
     $query =  "select * from car where car_no = $car_no";
     $result = mysqli_query($conn, $query);
-    $product = mysqli_fetch_array($result);
-    if(!$product) {
-        msg("물품이 존재하지 않습니다.");
+    $car = mysqli_fetch_array($result);
+    if(!$car) {
+        msg("차량이 존재하지 않습니다.");
     }
     $mode = "수정";
     $action = "car_modify.php";
 }
 
-$manufacturers = array();
+$model = array();
 
-$query = "select * from manufacturer";
+$query = "select * from model";
 $result = mysqli_query($conn, $query);
 while($row = mysqli_fetch_array($result)) {
-    $manufacturers[$row['manufacturer_id']] = $row['manufacturer_name'];
+    $model[$row['model_name']] = $row['model_name'];
 }
 ?>
 
     <div class="container">
         <form name="car_form" action="<?=$action?>" method="post" class="fullwidth">
-            <input type="hidden" name="product_id" value="<?=$product['product_id']?>"/>
             <h3>차량 정보 <?=$mode?></h3>
             <p>
-                <label for="manufacturer_id">제조사</label>
-                <select name="manufacturer_id" id="manufacturer_id">
+                <label for="model">차량 모델</label>
+                <select name="model_name" id="model_name">
                     <option value="-1">선택해 주십시오.</option>
                     <?
-                        foreach($manufacturers as $id => $name) {
-                            if($id == $product['manufacturer_id']){
+                        foreach($model as $name) {
+                            if($name == $car['model_name']){
                                 echo "<option value='{$id}' selected>{$name}</option>";
                             } else {
                                 echo "<option value='{$id}'>{$name}</option>";
@@ -48,35 +47,53 @@ while($row = mysqli_fetch_array($result)) {
                 </select>
             </p>
             <p>
-                <label for="product_name">상품명</label>
-                <input type="text" placeholder="상품명 입력" id="product_name" name="product_name" value="<?=$product['product_name']?>"/>
+                <label for="car_no">차량 번호</label>
+                <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>"/>
             </p>
             <p>
-                <label for="product_desc">상품설명</label>
-                <textarea placeholder="상품설명 입력" id="product_desc" name="product_desc" rows="10"><?=$product['product_desc']?></textarea>
+                <label for="customer_no">고객 번호</label>
+                <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>"/>
             </p>
             <p>
-                <label for="price">가격</label>
-                <input type="number" placeholder="정수로 입력" id="price" name="price" value="<?=$product['price']?>" />
+                <label for="model_year">연식</label>
+                <input type="number" placeholder="정수로 입력" id="model_year" name="model_year" value="<?=$car['model_year']?>" />
+            </p>
+            <p>
+                <label for="price">주행 거리</label>
+                <input type="number" placeholder="정수로 입력" id="price" name="price" value="<?=$car['price']?>" />
+            </p>
+            <p>
+                <label for="accident_history">사고 이력</label>
+                <input type="number" placeholder="횟수로 입력" id="accident_history" name="accident_history" value="<?=$car['accident_history']?>" />
+            </p>
+            <p>
+                <label for="color">차량 색상</label>
+                <input type="text" placeholder="차량 색상 입력" id="color" name="color" value="<?=$car['color']?>"/>
             </p>
 
             <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
 
             <script>
                 function validate() {
-                    if(document.getElementById("manufacturer_id").value == "-1") {
-                        alert ("제조사를 선택해 주십시오"); return false;
+                    if(document.getElementById("car_no").value == "") {
+                        alert ("차량 번호를 입력해 주십시오"); return false;
                     }
-                    else if(document.getElementById("product_name").value == "") {
-                        alert ("상품명을 입력해 주십시오"); return false;
+                    else if(document.getElementById("customer_no").value == "") {
+                        alert ("고객 번호를 입력해 주십시오"); return false;
                     }
-                    else if(document.getElementById("product_desc").value == "") {
-                        alert ("상품설명을 입력해 주십시오"); return false;
-                    }
-                    else if(document.getElementById("price").value == "") {
-                        alert ("가격을 입력해 주십시오"); return false;
+                    else if(document.getElementById("model_name").value == "-1") {
+                        alert ("차량 모델을 선택해 주십시오"); return false;
                     }
                     return true;
+                    
+                    // TODO : Check customer_no exists
+
+                    // TODO : Check password
+                    var customer_no = document.getElementById("customer_no").value;
+                    var promise;
+                    promise = $.ajax({
+                        url: 'password_check.php',
+                    })
                 }
             </script>
 
