@@ -9,7 +9,7 @@ $action = "car_insert.php";
 
 if (array_key_exists("car_no", $_GET)) {
     $car_no = $_GET["car_no"];
-    $query =  "select * from car where car_no = $car_no";
+    $query =  "select * from car where car_no = '$car_no'";
     $result = mysqli_query($conn, $query);
     $car = mysqli_fetch_array($result);
     if(!$car) {

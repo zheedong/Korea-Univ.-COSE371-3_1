@@ -42,7 +42,7 @@ if (array_key_exists("customer_no", $_GET)) {
             </p>
             <p>
                 <label for="password">비밀번호*</label>
-                <input type="text" placeholder="가입 비밀번호" id="password" name="password" value="" />
+                <input type="password" placeholder="가입 비밀번호" id="password" name="password" value="" />
             </p>
 
             <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>

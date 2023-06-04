@@ -40,7 +40,6 @@ if (!$model_year) {
     $estimated_price = mysqli_fetch_array($model)['forwarding_price'] * $balance_rate[date("Y") - $model_year];
 }
 
-
 $result = mysqli_query($conn, "insert into car (car_no, model_year, mileage, accident_history, color, estimated_price, customer_no, model_name) 
 values('$car_no', '$model_year', '$mileage', '$accident_history', '$color', '$estimated_price', '$customer_no', '$model_name')");
 
