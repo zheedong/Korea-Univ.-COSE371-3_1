@@ -28,124 +28,124 @@ while($row = mysqli_fetch_array($result)) {
 }
 ?>
 
-    <div class="container">
-        <form id="car_form" name="car_form" action="<?=$action?>" method="post" class="fullwidth">
-            <h3>차량 정보 <?=$mode?></h3>
-            <h6>*은 필수 입력 필드입니다.</h6>
-            <p>
-                <label for="car_no">차량 번호*</label>
-                <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>"/>
-            </p>
-            <p>
-                <label for="model">차량 모델*</label>
-                <select name="model_name" id="model_name">
-                    <option value="-1">선택해 주십시오.</option>
-                    <?
-                        foreach($model as $name) {
-                            if($name == $car['model_name']){
-                                echo "<option value='{$name}' selected>{$name}</option>";
-                            } else {
-                                echo "<option value='{$name}'>{$name}</option>";
-                            }
+<div class="container">
+    <form id="car_form" name="car_form" action="<?=$action?>" method="post" class="fullwidth">
+        <h3>차량 정보 <?=$mode?></h3>
+        <h6>*은 필수 입력 필드입니다.</h6>
+        <p>
+            <label for="car_no">차량 번호*</label>
+            <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>"/>
+        </p>
+        <p>
+            <label for="model">차량 모델*</label>
+            <select name="model_name" id="model_name">
+                <option value="-1">선택해 주십시오.</option>
+                <?
+                    foreach($model as $name) {
+                        if($name == $car['model_name']){
+                            echo "<option value='{$name}' selected>{$name}</option>";
+                        } else {
+                            echo "<option value='{$name}'>{$name}</option>";
                         }
-                    ?>
-                </select>
-            </p>
-            <p>
-                <label for="customer_no">고객 번호*</label>
-                <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>"/>
-            </p>
-            <p>
-                <label>고객 비밀번호*</label>
-                <input type="password" placeholder="비밀번호 입력" id="password" name="password"/> 
-            </p>
-            <p>
-                <label for="model_year">연식</label>
-                <input type="number" placeholder="정수로 입력" id="model_year" name="model_year" value="<?=$car['model_year']?>" />
-            </p>
-            <p>
-                <label for="mileage">주행 거리</label>
-                <input type="number" placeholder="정수로 입력" id="mileage" name="mileage" value="<?=$car['mileage']?>" />
-            </p>
-            <p>
-                <label for="accident_history">사고 이력</label>
-                <input type="number" placeholder="횟수로 입력" id="accident_history" name="accident_history" value="<?=$car['accident_history']?>" />
-            </p>
-            <p>
-                <label for="color">차량 색상</label>
-                <input type="text" placeholder="차량 색상 입력" id="color" name="color" value="<?=$car['color']?>"/>
-            </p>
-
-
-            <!-- Include jQuery Library Here -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script>
-                $('#car_form').on('submit', function(e) {
-                    e.preventDefault();
-                    validate();
-                });
-
-                function validate() {
-
-                    if(document.getElementById("car_no").value == "") {
-                        alert ("차량 번호를 입력해 주십시오");
-                        return;
                     }
-                    else if(document.getElementById("model_name").value == "-1") {
-                        alert ("차량 모델을 선택해 주십시오");
-                        return;
-                    }
-                    else if(document.getElementById("customer_no").value == "") {
-                        alert ("고객 번호를 입력해 주십시오");
-                        return;
-                    }
-                    else if(document.getElementById("password").value == "") {
-                        alert ("고객 비밀번호를 입력해 주십시오");
-                        return;
-                    }
+                ?>
+            </select>
+        </p>
+        <p>
+            <label for="customer_no">고객 번호*</label>
+            <input type="number" placeholder="고객 번호 입력" id="customer_no" name="customer_no" value="<?=$car['customer_no']?>"/>
+        </p>
+        <p>
+            <label>고객 비밀번호*</label>
+            <input type="password" placeholder="비밀번호 입력" id="password" name="password"/> 
+        </p>
+        <p>
+            <label for="model_year">연식</label>
+            <input type="number" placeholder="정수로 입력" id="model_year" name="model_year" value="<?=$car['model_year']?>" />
+        </p>
+        <p>
+            <label for="mileage">주행 거리</label>
+            <input type="number" placeholder="정수로 입력" id="mileage" name="mileage" value="<?=$car['mileage']?>" />
+        </p>
+        <p>
+            <label for="accident_history">사고 이력</label>
+            <input type="number" placeholder="횟수로 입력" id="accident_history" name="accident_history" value="<?=$car['accident_history']?>" />
+        </p>
+        <p>
+            <label for="color">차량 색상</label>
+            <input type="text" placeholder="차량 색상 입력" id="color" name="color" value="<?=$car['color']?>"/>
+        </p>
 
-                    var customer_no = document.getElementById("customer_no").value;
-                    let promises = [];
 
-                    promises.push($.ajax({
-                        url: 'customer_check.php',
-                        type: 'POST',
-                        data: {
-                            'customer_no': customer_no
-                        }
-                    }));
+        <!-- Include jQuery Library Here -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $('#car_form').on('submit', function(e) {
+                e.preventDefault();
+                validate();
+            });
 
-                    promises.push($.ajax({
-                        url: 'password_check.php',
-                        type: 'POST',
-                        data: {
-                            'password': document.getElementById("password").value,
-                            'customer_no': customer_no
-                        }
-                    }));
+            function validate() {
 
-                    Promise.all(promises)
-                    .then(function(results) {
-                        let customer_check_result = results[0]
-                        let password_check_result = results[1]
-
-                        if (customer_check_result == "false") {
-                            alert("존재하지 않는 고객 번호입니다.")
-                        }
-                        else if (password_check_result == "password_incorrect") {
-                            alert("비밀번호가 일치하지 않습니다.")
-                        }
-                        else {
-                            $('#car_form').off('submit').submit();
-                        }
-                    })
-                    .catch(function(jqXHR, textStatus, errorThrown) {
-                        console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
-                    });
+                if(document.getElementById("car_no").value == "") {
+                    alert ("차량 번호를 입력해 주십시오");
+                    return;
                 }
-            </script>
+                else if(document.getElementById("model_name").value == "-1") {
+                    alert ("차량 모델을 선택해 주십시오");
+                    return;
+                }
+                else if(document.getElementById("customer_no").value == "") {
+                    alert ("고객 번호를 입력해 주십시오");
+                    return;
+                }
+                else if(document.getElementById("password").value == "") {
+                    alert ("고객 비밀번호를 입력해 주십시오");
+                    return;
+                }
 
-            <p align="center"><button class="button primary large"><?=$mode?></button></p>
-        </form>
-    </div>
+                var customer_no = document.getElementById("customer_no").value;
+                let promises = [];
+
+                promises.push($.ajax({
+                    url: 'customer_check.php',
+                    type: 'POST',
+                    data: {
+                        'customer_no': customer_no
+                    }
+                }));
+
+                promises.push($.ajax({
+                    url: 'password_check.php',
+                    type: 'POST',
+                    data: {
+                        'password': document.getElementById("password").value,
+                        'customer_no': customer_no
+                    }
+                }));
+
+                Promise.all(promises)
+                .then(function(results) {
+                    let customer_check_result = results[0]
+                    let password_check_result = results[1]
+
+                    if (customer_check_result == "false") {
+                        alert("존재하지 않는 고객 번호입니다.")
+                    }
+                    else if (password_check_result == "password_incorrect") {
+                        alert("비밀번호가 일치하지 않습니다.")
+                    }
+                    else {
+                        $('#car_form').off('submit').submit();
+                    }
+                })
+                .catch(function(jqXHR, textStatus, errorThrown) {
+                    console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                });
+            }
+        </script>
+
+        <p align="center"><button class="button primary large"><?=$mode?></button></p>
+    </form>
+</div>
 <? include("footer.php") ?>

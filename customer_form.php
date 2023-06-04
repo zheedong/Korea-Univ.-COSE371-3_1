@@ -19,40 +19,46 @@ if (array_key_exists("customer_no", $_GET)) {
     $action = "customer_modify.php";
 }
 ?>
-    <div class="container">
-        <form id="customer_form" name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
-            <input type="hidden" id="customer_no" name="customer_no" value="<?=$customer['customer_no']?>"/>
-            <h3>고객 정보 <?=$mode?></h3>
-            <h6>*은 필수 입력 필드입니다.</h6>
-            <p>
-                <label for="name">고객 이름*</label>
-                <input type="text" placeholder="고객 이름 입력" id="name" name="name" value="<?=$customer['name']?>"/>
-            </p>
-            <p>
-                <label for="contact">연락처</label>
-                <input type="number" placeholder="숫자만 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
-            </p>
-            <p>
-                <label for="email">Email*</label>
-                <input type="text" placeholder="이메일은 필수 입력" id="email" name="email" value="<?=$customer['email']?>" />
-            </p>
-            <p>
-                <label for="address">주소</label>
-                <input type="text" placeholder="주소 입력" id="address" name="address" value="<?=$customer['address']?>" />
-            </p>
-            <p>
-                <label for="password">비밀번호*</label>
-                <input type="password" placeholder="가입 비밀번호" id="password" name="password" value="" />
-            </p>
 
-            <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
+<div class="container">
+    <form id="customer_form" name="customer_form" action="<?=$action?>" method="post" class="fullwidth">
+        <input type="hidden" id="customer_no" name="customer_no" value="<?=$customer['customer_no']?>"/>
+        <h3>고객 정보 <?=$mode?></h3>
+        <h6>*은 필수 입력 필드입니다.</h6>
+        <p>
+            <label for="name">고객 이름*</label>
+            <input type="text" placeholder="고객 이름 입력" id="name" name="name" value="<?=$customer['name']?>"/>
+        </p>
+        <p>
+            <label for="contact">연락처</label>
+            <input type="number" placeholder="숫자만 입력 (-은 제외)" id="contact" name="contact" value="<?=$customer['contact']?>" />
+        </p>
+        <p>
+            <label for="email">Email*</label>
+            <input type="text" placeholder="이메일은 필수 입력" id="email" name="email" value="<?=$customer['email']?>" />
+        </p>
+        <p>
+            <label for="address">주소</label>
+            <input type="text" placeholder="주소 입력" id="address" name="address" value="<?=$customer['address']?>" />
+        </p>
+        <p>
+            <label for="password">비밀번호*</label>
+            <input type="password" placeholder="가입 비밀번호" id="password" name="password" value="" />
+        </p>
 
-            <!-- Include jQuery Library Here -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script> 
+
+        <!-- Include jQuery Library Here -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script> 
+            $('#customer_form').on('submit', function(e) {
+                e.preventDefault();
+                validate()
+            });
+
             var mode = "<?=$mode?>"
 
             function validate() {
+
                 if(document.getElementById("name").value == "") {
                     alert ("고객 이름을 입력해 주십시오"); return false;
                 }
@@ -95,7 +101,7 @@ if (array_key_exists("customer_no", $_GET)) {
 
                     promise.then(function(result) {
                         if (mode == "수정" && result == 'password incorrect') {
-                            alert('패스워드가 틀렸습니다.');
+                            alert('잘못된 패스워드입니다.');
                         } 
                         else if (mode == "입력" && result == 'email exists') {
                             alert('이미 존재하는 이메일입니다.');
@@ -109,11 +115,12 @@ if (array_key_exists("customer_no", $_GET)) {
                         console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
                     });
                 });
-        }
+            }
 
-            </script>
+        </script>
 
+        <p align="center"><button class="button primary large"><?=$mode?></button></p>
 
-        </form>
-    </div>
+    </form>
+</div>
 <? include("footer.php") ?>

@@ -55,14 +55,6 @@ include "util.php";      //유틸 함수
                 return;
             }
         }
-
-        function deleteConfirm(car_no) {
-            if (confirm(car_no.toString() + "를 정말 삭제하시겠습니까?") == true){    //확인
-                window.location = "car_delete.php?car_no=" + car_no;
-            }else{   //취소
-                return;
-            }
-        }
     </script>
 </div>
 <? include("footer.php") ?>

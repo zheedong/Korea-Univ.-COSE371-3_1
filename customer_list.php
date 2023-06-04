@@ -32,7 +32,7 @@ include "util.php";      //유틸 함수
             echo "<td>{$row['address']}</td>";
             echo "<td width='17%'>
                 <a href='customer_form.php?customer_no={$row['customer_no']}'><button class='button primary small'>수정</button></a>
-                 <button onclick='javascript:deleteConfirm({$row['customer_no']})' class='button danger small'>삭제</button>
+                <button onclick='javascript:deleteConfirm({$row['customer_no']})' class='button danger small'>삭제</button>
                 </td>";
             echo "</tr>";
             $row_index++;
