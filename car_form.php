@@ -29,7 +29,7 @@ while($row = mysqli_fetch_array($result)) {
 ?>
 
     <div class="container">
-        <form name="car_form" action="<?=$action?>" method="post" class="fullwidth">
+        <form id="car_form" name="car_form" action="<?=$action?>" method="post" class="fullwidth">
             <h3>차량 정보 <?=$mode?></h3>
             <h6>*은 필수 입력 필드입니다.</h6>
             <p>
@@ -43,9 +43,9 @@ while($row = mysqli_fetch_array($result)) {
                     <?
                         foreach($model as $name) {
                             if($name == $car['model_name']){
-                                echo "<option value='{$car}' selected>{$name}</option>";
+                                echo "<option value='{$name}' selected>{$name}</option>";
                             } else {
-                                echo "<option value='{$car}'>{$name}</option>";
+                                echo "<option value='{$name}'>{$name}</option>";
                             }
                         }
                     ?>
@@ -64,8 +64,8 @@ while($row = mysqli_fetch_array($result)) {
                 <input type="number" placeholder="정수로 입력" id="model_year" name="model_year" value="<?=$car['model_year']?>" />
             </p>
             <p>
-                <label for="price">주행 거리</label>
-                <input type="number" placeholder="정수로 입력" id="price" name="price" value="<?=$car['price']?>" />
+                <label for="mileage">주행 거리</label>
+                <input type="number" placeholder="정수로 입력" id="mileage" name="mileage" value="<?=$car['mileage']?>" />
             </p>
             <p>
                 <label for="accident_history">사고 이력</label>
@@ -76,67 +76,76 @@ while($row = mysqli_fetch_array($result)) {
                 <input type="text" placeholder="차량 색상 입력" id="color" name="color" value="<?=$car['color']?>"/>
             </p>
 
-            <p align="center"><button class="button primary large" onclick="javascript:return validate();"><?=$mode?></button></p>
 
+            <!-- Include jQuery Library Here -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script>
+                $('#car_form').on('submit', function(e) {
+                    e.preventDefault();
+                    validate();
+                });
+
                 function validate() {
+
                     if(document.getElementById("car_no").value == "") {
-                        alert ("차량 번호를 입력해 주십시오"); return false;
-                    }
-                    else if(document.getElementById("customer_no").value == "") {
-                        alert ("고객 번호를 입력해 주십시오"); return false;
+                        alert ("차량 번호를 입력해 주십시오");
+                        return;
                     }
                     else if(document.getElementById("model_name").value == "-1") {
-                        alert ("차량 모델을 선택해 주십시오"); return false;
+                        alert ("차량 모델을 선택해 주십시오");
+                        return;
+                    }
+                    else if(document.getElementById("customer_no").value == "") {
+                        alert ("고객 번호를 입력해 주십시오");
+                        return;
+                    }
+                    else if(document.getElementById("password").value == "") {
+                        alert ("고객 비밀번호를 입력해 주십시오");
+                        return;
                     }
 
-                    $("#car_form").on('submit', function(e){
-                        e.preventDefault();
-                        var customer_no = document.getElementById("customer_no").value;
-                        var promise;
-                        promise = $.ajax({
-                            url: 'customer_check.php',
-                            type: 'POST',
-                            data: {
-                                'customer_no': customer_no
-                            }
-                        });
+                    var customer_no = document.getElementById("customer_no").value;
+                    let promises = [];
 
-                        promise.then(function(data) {
-                            if(data == "false") {
-                                alert("존재하지 않는 고객 번호입니다.");
-                                return false;
-                            }
-                        })
-                        .catch(function(jqXHR, textStatus, errorThrown) {
-                            console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
-                        });
+                    promises.push($.ajax({
+                        url: 'customer_check.php',
+                        type: 'POST',
+                        data: {
+                            'customer_no': customer_no
+                        }
+                    }));
 
-                        promise = $.ajax({
-                            url: 'password_check.php',
-                            type: 'POST',
-                            data: {
-                                'password': document.getElementById("password").value,
-                                'customer_no': customer_no
-                            }
-                        });
+                    promises.push($.ajax({
+                        url: 'password_check.php',
+                        type: 'POST',
+                        data: {
+                            'password': document.getElementById("password").value,
+                            'customer_no': customer_no
+                        }
+                    }));
 
-                        promise.then(function(data) {
-                            if(data == "password incorrect") {
-                                alert("비밀번호가 일치하지 않습니다.");
-                                return false;
-                            }
-                        })
-                        .catch(function(jqXHR, textStatus, errorThrown) {
-                            console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
-                        });
+                    Promise.all(promises)
+                    .then(function(results) {
+                        let customer_check_result = results[0]
+                        let password_check_result = results[1]
 
+                        if (customer_check_result == "false") {
+                            alert("존재하지 않는 고객 번호입니다.")
+                        }
+                        else if (password_check_result == "password_incorrect") {
+                            alert("비밀번호가 일치하지 않습니다.")
+                        }
+                        else {
+                            $('#car_form').off('submit').submit();
+                        }
+                    })
+                    .catch(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
                     });
                 }
-
-                    
             </script>
 
+            <p align="center"><button class="button primary large"><?=$mode?></button></p>
         </form>
     </div>
 <? include("footer.php") ?>

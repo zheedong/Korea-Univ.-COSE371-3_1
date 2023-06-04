@@ -13,6 +13,6 @@ $customer = mysqli_fetch_array($result);
 if($customer) {
     echo 'email exists';
 } else {
-    echo 'success';
+    echo 'false';
 }
 ?>
