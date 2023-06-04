@@ -121,6 +121,21 @@ if (array_key_exists("customer_no", $_GET)) {
 
         <p align="center"><button class="button primary large"><?=$mode?></button></p>
 
+        <!-- If $mode=수정, make delete button -->
+        <? if ($mode == "수정") : ?>
+            <p align="center">
+                <button onclick="setDeleteAction()" class="button danger large">삭제</button>
+            </p>
+        <? endif; ?>
+
+        <script>
+        function setDeleteAction() {
+            if (confirm("정말 삭제하시겠습니까?")) {
+                document.customer_form.action = "customer_delete.php";
+                document.customer_form.submit();
+            }
+        }
+        </script>
     </form>
 </div>
 <? include("footer.php") ?>
