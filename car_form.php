@@ -112,6 +112,7 @@ while($row = mysqli_fetch_array($result)) {
                 e.preventDefault();
                 setDeleteAction().then(function() {
                     shouldSubmit = true;
+                    $('#car_form').attr('action', 'car_delete.php')
                     $('#car_form').submit();
                 });
             });
@@ -120,11 +121,12 @@ while($row = mysqli_fetch_array($result)) {
                 e.preventDefault();
                 checkAppraisal().then(function() {
                     shouldSubmit = true;
+                    $('#car_form').attr('action', 'appraisal_insert.php')
                     $('#car_form').submit();
                 });
             });
 
-            $('#customer_form').on('submit', function(e) {
+            $('#car_form').on('submit', function(e) {
                 if(!shouldSubmit) {
                     e.preventDefault();
                 }
@@ -178,19 +180,22 @@ while($row = mysqli_fetch_array($result)) {
             
             function setDeleteAction() {
                 return new Promise(function(resolve, reject) {
+
                     if (confirm("정말 삭제하시겠습니까?")) {
-                        var password = document.getElementById("password").value;
-                        if(password == "") {
+                        if(document.getElementById("password").value == "") {
                             alert ("고객 비밀번호를 입력해 주십시오");
                             reject();
                             return;
                         } 
 
+                        var customer_no = document.getElementById("customer_no").value;
+                        var password = document.getElementById("password").value;
+
                         promise = $.ajax({
                             url: 'password_check.php',
                             type: 'POST',
                             data: {
-                                'password': document.getElementById("password").value,
+                                'password': password,
                                 'customer_no': customer_no
                             }
                         });
@@ -217,8 +222,10 @@ while($row = mysqli_fetch_array($result)) {
 
             function checkAppraisal() {
                 return new Promise(function(resolve, reject) {
-                    if (confirm("감정을 신청하시겠습니까??")) {
+                    if (confirm("감정을 신청하시겠습니까?")) {
+                        var customer_no = document.getElementById("customer_no").value;
                         var password = document.getElementById("password").value;
+
                         if(password == "") {
                             alert ("고객 비밀번호를 입력해 주십시오");
                             reject();
@@ -229,7 +236,7 @@ while($row = mysqli_fetch_array($result)) {
                             url: 'password_check.php',
                             type: 'POST',
                             data: {
-                                'password': document.getElementById("password").value,
+                                'password': password,
                                 'customer_no': customer_no
                             }
                         });

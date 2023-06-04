@@ -4,7 +4,7 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
-$car_no = $_GET['car_no'];
+$car_no = $_POST['car_no'];
 
 $result = mysqli_query($conn, "delete from car where car_no = '$car_no'");
 

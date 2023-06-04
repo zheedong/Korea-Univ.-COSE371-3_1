@@ -40,8 +40,7 @@ if (!$model_year) {
     $estimated_price = mysqli_fetch_array($model)['forwarding_price'] * $balance_rate[date("Y") - $model_year];
 }
 
-$result = mysqli_query($conn, "insert into car (car_no, model_year, mileage, accident_history, color, estimated_price, customer_no, model_name) 
-values('$car_no', '$model_year', '$mileage', '$accident_history', '$color', '$estimated_price', '$customer_no', '$model_name')");
+$result = mysqli_query($conn, "update car set car_no = '$car_no', model_year = '$model_year', mileage = '$mileage', accident_history = '$accident_history', color = '$color', estimated_price = '$estimated_price', model_name = '$model_name' where car_no = '$car_no'");
 
 if(!$result)
 {
@@ -49,7 +48,7 @@ if(!$result)
 }
 else
 {
-    s_msg ('성공적으로 입력 되었습니다');
+    s_msg ('성공적으로 수정 되었습니다');
     echo "<script>location.replace('car_list.php');</script>";
 }
 ?>

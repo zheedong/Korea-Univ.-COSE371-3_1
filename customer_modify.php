@@ -12,7 +12,7 @@ $address = $_POST['address'];
 $password = $_POST['password'];
 
 // update
-$result = mysqli_query($conn, "update customer set name = '$name', contact = '$contact', email = '$email', address = '$address', password = '$password' where name = '$name'");
+$result = mysqli_query($conn, "update customer set name = '$name', contact = '$contact', email = '$email', address = '$address', password = '$password' where customer_no = '$customer_no'");
 
 if(!$result)
 {
