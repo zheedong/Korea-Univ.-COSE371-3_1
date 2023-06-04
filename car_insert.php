@@ -34,7 +34,11 @@ $balance_rate[14] = 0.079;
 $balance_rate[15] = 0.067;
 
 $model = mysqli_query($conn, "select * from model where model_name = '$model_name'");
-$estimated_price = mysqli_fetch_array($model)['forwarding_price'] * $balance_rate[date("Y") - $model_year];
+if (!$model_year) {
+    $estimated_price = Null;
+} else {
+    $estimated_price = mysqli_fetch_array($model)['forwarding_price'] * $balance_rate[date("Y") - $model_year];
+}
 
 
 $result = mysqli_query($conn, "insert into car (car_no, model_year, mileage, accident_history, color, estimated_price, customer_no, model_name) 
