@@ -64,51 +64,51 @@ if (array_key_exists("customer_no", $_GET)) {
                 }
 
                 $('#customer_form').on('submit', function(e) {
-                e.preventDefault(); // prevent form from submitting
+                    e.preventDefault(); // prevent form from submitting
 
-                var email = document.getElementById("email").value;
-                var password = document.getElementById("password").value;
-                var customer_no = document.getElementById("customer_no").value;
+                    var email = document.getElementById("email").value;
+                    var password = document.getElementById("password").value;
+                    var customer_no = document.getElementById("customer_no").value;
 
-                var promise;
+                    var promise;
 
-                // If mode = 수정, check if email already exists and password is correct
-                if (mode == "수정") {
-                    promise = $.ajax({
-                        url: 'password_check.php',
-                        type: 'POST',
-                        data: {
-                            'password': password,
-                            'customer_no': customer_no
-                        }
-                    });
-                }
-                else if (mode == "입력") {
-                    promise = $.ajax({
-                        url: 'email_check.php',
-                        type: 'POST',
-                        data: {
-                            'email': email
-                        }
-                    });
-                }
-
-                promise.then(function(result) {
-                    if (mode == "수정" && result == 'password incorrect') {
-                        alert('패스워드가 틀렸습니다.');
-                    } 
-                    else if (mode == "입력" && result == 'email exists') {
-                        alert('이미 존재하는 이메일입니다.');
+                    // If mode = 수정, check if email already exists and password is correct
+                    if (mode == "수정") {
+                        promise = $.ajax({
+                            url: 'password_check.php',
+                            type: 'POST',
+                            data: {
+                                'password': password,
+                                'customer_no': customer_no
+                            }
+                        });
                     }
-                    else {
-                        // No errors, submit form
-                        $('#customer_form').off('submit').submit();
+                    else if (mode == "입력") {
+                        promise = $.ajax({
+                            url: 'email_check.php',
+                            type: 'POST',
+                            data: {
+                                'email': email
+                            }
+                        });
                     }
-                })
-                .catch(function(jqXHR, textStatus, errorThrown) {
-                    console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+
+                    promise.then(function(result) {
+                        if (mode == "수정" && result == 'password incorrect') {
+                            alert('패스워드가 틀렸습니다.');
+                        } 
+                        else if (mode == "입력" && result == 'email exists') {
+                            alert('이미 존재하는 이메일입니다.');
+                        }
+                        else {
+                            // No errors, submit form
+                            $('#customer_form').off('submit').submit();
+                        }
+                    })
+                    .catch(function(jqXHR, textStatus, errorThrown) {
+                        console.log('Ajax request failed: ' + textStatus + ', ' + errorThrown);
+                    });
                 });
-            });
         }
 
             </script>
