@@ -50,14 +50,14 @@ if (!$result)
 {
     mysqli_query($conn, "rollback");
     mysqli_close($conn);
-    s_msg("차량등록에 실패하였습니다. 다시 시도하여 주십시오.");
+    s_msg("차량정보 수정에 실패하였습니다. 다시 시도하여 주십시오.");
     echo "<script>location.replace('car_list.php');</script>";
 }
 else
 {
     mysqli_query($conn, "commit");
     mysqli_close($conn);
-    s_msg ('성공적으로 입력 되었습니다');
+    s_msg ('성공적으로 수정 되었습니다');
     echo "<script>location.replace('car_list.php');</script>";
 }
 ?>

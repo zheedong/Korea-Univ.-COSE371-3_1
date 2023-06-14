@@ -15,20 +15,27 @@ include "util.php";      //유틸 함수
 
     <table class="table table-striped table-bordered">
         <tr>
-            <th>차량 번호</th>
-            <th>연식</th>
-            <th>주행 거리</th>
-            <th>사고 이력</th>
-            <th>색상</th>
-            <th>예상 가격</th>
-            <th>판매자</th>
             <th>모델명</th>
+            <th>제조사</th>
+            <th>출고가</th>
+            <th>연료</th>
+            <th>변속기</th>
+            <th>연비</th>
+            <th>차종</th>
+            <th>배기량</th>
         </tr>
         <?
         $row_index = 1;
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr>";
-            echo "<td>{$row['car_no']}</td>";
+            echo "<td>{$row['model_name']}</td>";
+            echo "<td>{$row['manufacturer']}</td>";
+            echo "<td>{$row['forwarding_price']}</td>";
+            echo "<td>{$row['fuel_type']}</td>";
+            echo "<td>{$row['gearbox_type']}</td>";
+            echo "<td>{$row['fuel_efficiency']}</td>";
+            echo "<td>{$row['car_type']}</td>";
+            echo "<td>{$row['displacement']}</td>";
             echo "</tr>";
             $row_index++;
         }
