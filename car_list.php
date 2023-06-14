@@ -6,7 +6,7 @@ include "util.php";      //유틸 함수
 <div class="container">
     <?
     $conn = dbconnect($host, $dbid, $dbpass, $dbname);
-    $query = "select * from car";
+    $query = "select * from car natural join customer";
     $result = mysqli_query($conn, $query);
     if (!$result) {
         msg('Query Error : '.mysqli_error($conn));
@@ -34,7 +34,7 @@ include "util.php";      //유틸 함수
             echo "<td>{$row['accident_history']}</td>";
             echo "<td>{$row['color']}</td>";
             echo "<td>{$row['estimated_price']}</td>";
-            echo "<td>{$row['customer_no']}</td>";
+            echo "<td>{$row['name']}</td>";
             echo "<td>{$row['model_name']}</td>";
             echo "<td>
                 <a href='car_form.php?car_no={$row['car_no']}'><button class='button primary medium'>수정</button></a>
