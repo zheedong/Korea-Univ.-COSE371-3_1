@@ -17,12 +17,6 @@ include "util.php";      //유틸 함수
     }
     ?>
 
-    <form action="product_list.php" method="POST">
-        <div class="form-group">
-            <input type="text" class="form-control" name="search_keyword" placeholder="제조사나 상품명을 입력하세요.">
-        </div>
-        <button type="submit" class="button primary small">검색</button>
-
     <table class="table table-striped table-bordered">
         <tr>
             <th>No.</th>

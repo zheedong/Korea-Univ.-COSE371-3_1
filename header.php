@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<form action="product_list.php" method="post">
+<form action="car_list.php" method="post">
     <div class='navbar fixed'>
         <div class='container'>
             <a class='pull-left title' href="index.php">고려차차차🚗</a>
             <ul class='pull-right'>
+                <li>
+                    <input type="text" name="search_keyword" placeholder="고려차차차 차량검색">
+                </li>
                 <li><a href='car_form.php'>차량 등록</a></li>
                 <li><a href='car_list.php'>내가 팔 차</a></li>
                 <li><a href='appraisal_list.php'>감정 조회</a></li>

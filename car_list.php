@@ -7,6 +7,10 @@ include "util.php";      //유틸 함수
     <?
     $conn = dbconnect($host, $dbid, $dbpass, $dbname);
     $query = "select * from car natural join customer";
+    if (array_key_exists("search_keyword", $_POST)) {
+        $search_keyword = $_POST["search_keyword"];
+        $query .= " where model_name like '%$search_keyword%'";
+    }
     $result = mysqli_query($conn, $query);
     if (!$result) {
         msg('Query Error : '.mysqli_error($conn));
