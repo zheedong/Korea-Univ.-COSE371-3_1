@@ -7,6 +7,12 @@ $conn = dbconnect($host, $dbid, $dbpass, $dbname);
 $mode = "입력";
 $action = "car_insert.php";
 
+mysqli_query($conn, "set autocommit = 0");
+mysqli_query($conn, "set session transaction isolation level serializable");
+mysqli_query($conn, "begin");
+
+mysqli_query($conn, "select * from car");
+
 if (array_key_exists("car_no", $_GET)) {
     $car_no = urldecode($_GET["car_no"]);
     $query =  "select * from car where car_no = '$car_no'";

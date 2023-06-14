@@ -4,6 +4,10 @@ include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
+mysqli_query($conn, "set autocommit = 0");
+mysqli_query($conn, "set session transaction isolation level serializable");
+mysqli_query($conn, "begin");
+
 $car_no = $_POST['car_no'];
 $model_year = $_POST['model_year'];
 $mileage = $_POST['mileage'];
@@ -43,12 +47,17 @@ if (!$model_year) {
 $result = mysqli_query($conn, "insert into car (car_no, model_year, mileage, accident_history, color, estimated_price, customer_no, model_name) 
 values('$car_no', '$model_year', '$mileage', '$accident_history', '$color', '$estimated_price', '$customer_no', '$model_name')");
 
-if(!$result)
+if (!$result)
 {
-    msg('Query Error : '.mysqli_error($conn));
+    mysqli_query($conn, "rollback");
+    mysqli_close($conn);
+    s_msg("차량등록에 실패하였습니다. 다시 시도하여 주십시오.");
+    echo "<script>location.replace('car_list.php');</script>";
 }
 else
 {
+    mysqli_query($conn, "commit");
+    mysqli_close($conn);
     s_msg ('성공적으로 입력 되었습니다');
     echo "<script>location.replace('car_list.php');</script>";
 }
