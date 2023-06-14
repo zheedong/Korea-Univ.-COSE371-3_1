@@ -13,7 +13,7 @@ include "util.php";      //유틸 함수
     }
     $result = mysqli_query($conn, $query);
     if (!$result) {
-         die('Query Error : ' . mysqli_error());
+         die('Query Error : ' . mysqli_error($conn));
     }
     ?>
 

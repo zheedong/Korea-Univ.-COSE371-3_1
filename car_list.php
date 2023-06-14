@@ -39,6 +39,8 @@ include "util.php";      //유틸 함수
             echo "<td>{$row['color']}</td>";
             echo "<td>{$row['estimated_price']}</td>";
             echo "<td>{$row['name']}</td>";
+            // Send the model_name to model_view.php
+            echo "<td><a href='model_view.php?model_name={$row['model_name']}'>{$row['model_name']}</a></td>";
             echo "<td>{$row['model_name']}</td>";
             echo "<td>
                 <a href='car_form.php?car_no={$row['car_no']}'><button class='button primary medium'>수정</button></a>
