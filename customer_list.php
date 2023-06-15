@@ -26,6 +26,7 @@ include "util.php";      //유틸 함수
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr>";
             echo "<td>{$row['customer_no']}</td>";
+            $row['name'][1] = '*';
             echo "<td>{$row['name']}</td>";
             echo "<td>{$row['contact']}</td>";
             echo "<td>{$row['email']}</td>";
