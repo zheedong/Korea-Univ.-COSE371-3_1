@@ -26,8 +26,11 @@ include "util.php";      //유틸 함수
         while ($row = mysqli_fetch_array($result)) {
             echo "<tr>";
             echo "<td>{$row['customer_no']}</td>";
-            $row['name'][1] = '*';
-            echo "<td>{$row['name']}</td>";
+            $name = $row['name'];
+            if(mb_strlen($name) >= 3) {
+        		$name = mb_substr($name, 0, 1) . '*' . mb_substr($name, 2);
+			}
+            echo "<td>{$name}</td>";
             echo "<td>{$row['contact']}</td>";
             echo "<td>{$row['email']}</td>";
             echo "<td>{$row['address']}</td>";

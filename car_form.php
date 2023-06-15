@@ -38,7 +38,12 @@ while($row = mysqli_fetch_array($result)) {
         <h6>*은 필수 입력 필드입니다.</h6>
         <p>
             <label for="car_no">차량 번호*</label>
-            <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>"/>
+            <? if ($mode == "입력") : ?>
+                <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>"/>
+            <? endif; ?>
+            <? if ($mode == "수정") : ?>
+                <input type="text" placeholder="차량 번호 입력" id="car_no" name="car_no" value="<?=$car['car_no']?>" readonly/>
+            <? endif; ?>
         </p>
         <p>
             <label for="model">차량 모델*</label>
